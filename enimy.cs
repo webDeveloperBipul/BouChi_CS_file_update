@@ -18,6 +18,8 @@ public class enimy : MonoBehaviour
     Rigidbody rb;
     CharacterController controller;
 
+    
+
 
     void Start()
     {
@@ -26,53 +28,94 @@ public class enimy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         startPos = this.transform.position;
         controller = GetComponent<CharacterController>();
+        
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {   
+        
+        
+
         GameObject varGameObject = GameObject.FindWithTag("Player");
 
-
-        timeLeft -= Time.deltaTime;
+        if (GameObject.Find("home1").GetComponent<safe_home>().outSide)
+        {
+            timeLeft -= Time.deltaTime;
+            
+            Debug.Log(timeLeft);
+        }
+       
         if (player != null)
         {
             if (timeLeft > 0f)
             {
+                float distance = Vector3.Distance(transform.position, player.transform.position);
                 // varGameObject.GetComponent<col>().enabled = true;
 
-                float distance = Vector3.Distance(transform.position, player.transform.position);
-                if (distance > EnemyDistanceRun)
-                {
-                    Vector3 dirToPlayer = transform.position + player.transform.position;
-                    Vector3 newPos = transform.position - dirToPlayer;
-                    _agent.SetDestination(startPos);
 
-                }
-                else
+                if (distance < EnemyDistanceRun)
                 {
+
+
 
                     Vector3 dirToPlayer = transform.position - player.transform.position;
                     Vector3 newPos = transform.position + dirToPlayer;
                     _agent.SetDestination(newPos);
-                }
 
+
+                }
+                else
+                {
+                    Vector3 dirToPlayer = transform.position + player.transform.position;
+                    Vector3 newPos = transform.position - dirToPlayer;
+                    _agent.SetDestination(startPos);
+                }
+                if (GameObject.Find("home1").GetComponent<safe_home>().EnteredTrigger)
+                {
+
+                    Vector3 dirToPlayer = transform.position + player.transform.position;
+                    Vector3 newPos = transform.position - dirToPlayer;
+                    _agent.SetDestination(startPos);
+                    Debug.Log("ok");
+                }
 
 
             }
             else
             {
-                // varGameObject.GetComponent<col>().enabled = false;
-
-                dist = Vector3.Distance(player.position, transform.position);
-                if (dist <= howClose)
+                if (GameObject.Find("home1").GetComponent<safe_home>().EnteredTrigger)
                 {
-                    transform.LookAt(player);
 
-                    rb.AddForce(transform.forward * moveSpeed);
+                    this.transform.position = startPos;
+                    Debug.Log("ok");
+                }
+                else
+                {
+
+                    dist = Vector3.Distance(player.position, transform.position);
+                    if (dist <= howClose)
+                    {
+                        transform.LookAt(player);
+
+                        rb.AddForce(transform.forward * moveSpeed);
+                    }
+
                 }
 
+                // varGameObject.GetComponent<col>().enabled = false;
 
+
+
+            }
+
+            if (GameObject.Find("home1").GetComponent<safe_home>().EnteredTrigger)
+            {
+
+                Vector3 dirToPlayer = transform.position + player.transform.position;
+                Vector3 newPos = transform.position - dirToPlayer;
+                _agent.SetDestination(startPos);
+                Debug.Log("ok");
             }
         }
         else {
@@ -82,16 +125,14 @@ public class enimy : MonoBehaviour
 
 
         }
-       
-        
-
-
-
-
 
     }
 
-   
+    private void OnTriggerEnter(Collider coll)
+    {
+        
+    }
+
 
 
 }
