@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class safe_home : MonoBehaviour
 {
-    public bool EnteredTrigger;
-    public bool outSide;
-    public bool Entered;
+    public bool stay;
+    public bool exit;
+    public bool enter;
 
     // Start is called before the first frame update
     void Start()
@@ -20,29 +20,31 @@ public class safe_home : MonoBehaviour
         
     }
 
-    public void OnTriggerStay(Collider other)
-    {
-       
-        if (other.gameObject.tag == "Player")
-        {
-            EnteredTrigger = true;
-
-            outSide = false;
-
-        }
-
-       
-
-           
-    }
     public void OnTriggerEnter(Collider other)
     {
 
         if (other.gameObject.tag == "Player")
         {
-            Entered = true;
+            enter = true;
+            
+            exit = false;
 
-            outSide = false;
+        }
+
+
+
+
+    }
+
+
+    public void OnTriggerStay(Collider other)
+    {
+
+        if (other.gameObject.tag == "Player")
+        {
+            stay = true;
+
+            exit = false;
 
         }
 
@@ -55,8 +57,9 @@ public class safe_home : MonoBehaviour
 
         if (other.gameObject.tag == "Player")
         {
-            EnteredTrigger = false;
-            outSide = true;
+            stay = false;
+            exit = true;
+            enter = false;
 
 
 

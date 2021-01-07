@@ -17,7 +17,7 @@ public class Myscript : MonoBehaviour
     void Update()
     {
         var rigidbody = GetComponent<Rigidbody>();
-        rigidbody.velocity = new Vector3(joystick.Horizontal * 20f + Input.GetAxis("Horizontal") * 20f ,
-                               rigidbody.velocity.y, joystick.Vertical * 20f + Input.GetAxis("Vertical") * 20f);
+        rigidbody.velocity = new Vector3(joystick.Horizontal * 600f * Time.deltaTime + Input.GetAxis("Horizontal") * 600f *  Time.deltaTime,
+                               rigidbody.velocity.y, joystick.Vertical * 600f * Time.deltaTime + Input.GetAxis("Vertical") * 600f *  Time.deltaTime);
     }
 }
